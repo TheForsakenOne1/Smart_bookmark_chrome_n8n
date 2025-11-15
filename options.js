@@ -40,31 +40,70 @@ function createCategoryCard(name, config) {
   const domainsText = config.domains ? config.domains.join(', ') : '';
   const keywordsText = config.keywords ? config.keywords.join(', ') : '';
 
-  card.innerHTML = `
-    <div class="category-header">
-      <input type="text" class="category-name" value="${name}" placeholder="Category Name">
-      <button class="delete-category">🗑️ Delete</button>
-    </div>
+  // Create header
+  const header = document.createElement('div');
+  header.className = 'category-header';
 
-    <div class="category-field">
-      <label>Domains (comma-separated):</label>
-      <textarea class="category-domains" placeholder="github.com, stackoverflow.com">${domainsText}</textarea>
-      <small>Match these domains exactly</small>
-    </div>
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.className = 'category-name';
+  nameInput.value = name;
+  nameInput.placeholder = 'Category Name';
 
-    <div class="category-field">
-      <label>Keywords (comma-separated):</label>
-      <textarea class="category-keywords" placeholder="code, programming, developer">${keywordsText}</textarea>
-      <small>Match these keywords in title and URL</small>
-    </div>
-  `;
-
-  // Delete button handler
-  card.querySelector('.delete-category').addEventListener('click', () => {
-    if (confirm(`Are you sure you want to delete the "${name}" category?`)) {
+  const deleteBtn = document.createElement('button');
+  deleteBtn.className = 'delete-category';
+  deleteBtn.textContent = '🗑️ Delete';
+  deleteBtn.addEventListener('click', () => {
+    if (confirm(`Are you sure you want to delete the "${nameInput.value}" category?`)) {
       card.remove();
     }
   });
+
+  header.appendChild(nameInput);
+  header.appendChild(deleteBtn);
+
+  // Create domains field
+  const domainsField = document.createElement('div');
+  domainsField.className = 'category-field';
+
+  const domainsLabel = document.createElement('label');
+  domainsLabel.textContent = 'Domains (comma-separated):';
+
+  const domainsTextarea = document.createElement('textarea');
+  domainsTextarea.className = 'category-domains';
+  domainsTextarea.placeholder = 'github.com, stackoverflow.com';
+  domainsTextarea.value = domainsText;
+
+  const domainsSmall = document.createElement('small');
+  domainsSmall.textContent = 'Match these domains exactly';
+
+  domainsField.appendChild(domainsLabel);
+  domainsField.appendChild(domainsTextarea);
+  domainsField.appendChild(domainsSmall);
+
+  // Create keywords field
+  const keywordsField = document.createElement('div');
+  keywordsField.className = 'category-field';
+
+  const keywordsLabel = document.createElement('label');
+  keywordsLabel.textContent = 'Keywords (comma-separated):';
+
+  const keywordsTextarea = document.createElement('textarea');
+  keywordsTextarea.className = 'category-keywords';
+  keywordsTextarea.placeholder = 'code, programming, developer';
+  keywordsTextarea.value = keywordsText;
+
+  const keywordsSmall = document.createElement('small');
+  keywordsSmall.textContent = 'Match these keywords in title and URL';
+
+  keywordsField.appendChild(keywordsLabel);
+  keywordsField.appendChild(keywordsTextarea);
+  keywordsField.appendChild(keywordsSmall);
+
+  // Assemble card
+  card.appendChild(header);
+  card.appendChild(domainsField);
+  card.appendChild(keywordsField);
 
   return card;
 }
@@ -94,10 +133,19 @@ function setupEventListeners() {
       // Collect categories
       const newCategories = {};
       const categoryCards = document.querySelectorAll('.category-card');
+      const categoryNames = new Set();
 
-      categoryCards.forEach(card => {
+      // Validate categories
+      for (const card of categoryCards) {
         const name = card.querySelector('.category-name').value.trim();
-        if (!name) return;
+        if (!name) continue;
+
+        // Check for duplicates
+        if (categoryNames.has(name)) {
+          showMessage(`Duplicate category name: "${name}". Please use unique names.`, 'error');
+          return;
+        }
+        categoryNames.add(name);
 
         const domainsText = card.querySelector('.category-domains').value.trim();
         const keywordsText = card.querySelector('.category-keywords').value.trim();
@@ -115,7 +163,13 @@ function setupEventListeners() {
           keywords,
           patterns: [] // Patterns are complex, keeping simple for now
         };
-      });
+      }
+
+      // Check if at least one category exists
+      if (Object.keys(newCategories).length === 0) {
+        showMessage('Please add at least one category.', 'error');
+        return;
+      }
 
       // Save to storage
       await chrome.storage.sync.set({

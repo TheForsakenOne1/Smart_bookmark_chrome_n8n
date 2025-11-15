@@ -225,6 +225,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     getBookmarkStats().then(stats => sendResponse(stats));
     return true;
   }
+
+  if (request.action === 'reinitialize') {
+    initializeFolders().then(() => sendResponse({ success: true }));
+    return true;
+  }
 });
 
 // Classify all existing bookmarks

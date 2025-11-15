@@ -6,11 +6,7 @@
   "permissions": [
     "bookmarks",
     "storage",
-    "tabs",
-    "activeTab"
-  ],
-  "host_permissions": [
-    "<all_urls>"
+    "notifications"
   ],
   "background": {
     "service_worker": "background.js"

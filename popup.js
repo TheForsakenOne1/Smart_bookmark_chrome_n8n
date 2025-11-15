@@ -25,10 +25,16 @@ async function loadStats() {
     sortedStats.forEach(([category, count]) => {
       const statCard = document.createElement('div');
       statCard.className = 'stat-card';
-      statCard.innerHTML = `
-        <h3>${category}</h3>
-        <div class="count">${count}</div>
-      `;
+
+      const title = document.createElement('h3');
+      title.textContent = category;
+
+      const countDiv = document.createElement('div');
+      countDiv.className = 'count';
+      countDiv.textContent = count;
+
+      statCard.appendChild(title);
+      statCard.appendChild(countDiv);
       statsContainer.appendChild(statCard);
     });
   } catch (error) {
