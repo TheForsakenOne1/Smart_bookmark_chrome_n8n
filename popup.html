@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Bookmark Classifier</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 Smart Bookmarks</h1>
+      <p class="subtitle">AI-powered bookmark organization</p>
+    </header>
+
+    <section class="stats-section">
+      <h2>Statistics</h2>
+      <div id="stats-container" class="stats-grid">
+        <div class="loading">Loading statistics...</div>
+      </div>
+    </section>
+
+    <section class="actions-section">
+      <h2>Actions</h2>
+      <button id="classify-all" class="btn btn-primary">
+        <span class="icon">🔄</span>
+        Classify All Bookmarks
+      </button>
+      <button id="open-options" class="btn btn-secondary">
+        <span class="icon">⚙️</span>
+        Settings
+      </button>
+    </section>
+
+    <section class="info-section">
+      <div class="info-box">
+        <p><strong>Auto-classification:</strong> <span id="auto-status">...</span></p>
+        <label class="toggle">
+          <input type="checkbox" id="auto-classify-toggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <footer>
+      <p class="footer-text">Smart Bookmark Classifier v1.0</p>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

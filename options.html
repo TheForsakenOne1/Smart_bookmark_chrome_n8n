@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Bookmark Classifier - Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚙️ Settings</h1>
+      <p class="subtitle">Configure your smart bookmark classifier</p>
+    </header>
+
+    <section class="settings-section">
+      <h2>General Settings</h2>
+
+      <div class="setting-item">
+        <label for="folder-name">Root Folder Name:</label>
+        <input type="text" id="folder-name" placeholder="Smart Bookmarks">
+      </div>
+
+      <div class="setting-item">
+        <label>
+          <input type="checkbox" id="auto-classify">
+          Automatically classify new bookmarks
+        </label>
+      </div>
+    </section>
+
+    <section class="categories-section">
+      <h2>Categories</h2>
+      <p class="description">
+        Manage your bookmark categories. Each category can have domains, keywords, and patterns for intelligent classification.
+      </p>
+
+      <div id="categories-container"></div>
+
+      <button id="add-category" class="btn btn-secondary">
+        <span class="icon">➕</span>
+        Add New Category
+      </button>
+    </section>
+
+    <section class="actions-section">
+      <button id="save-settings" class="btn btn-primary">
+        <span class="icon">💾</span>
+        Save Settings
+      </button>
+      <button id="reset-defaults" class="btn btn-danger">
+        <span class="icon">🔄</span>
+        Reset to Defaults
+      </button>
+    </section>
+
+    <div id="message-container"></div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
